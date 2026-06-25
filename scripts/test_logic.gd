@@ -17,7 +17,8 @@ func test_bird_sorting():
 	var slots1 = Node2D.new()
 	slots1.name = "Slots"
 	for i in range(4):
-		slots1.add_child(Marker2D.new())
+		var slot = Marker2D.new()
+		slots1.add_child(slot)
 	branch1.add_child(slots1)
 
 	var bird1 = Node2D.new()
@@ -35,7 +36,7 @@ func test_bird_sorting():
 	for i in range(4):
 		var b = Node2D.new()
 		b.set_script(bird_script)
-		b.color = 0
+		b.color = 0 # RED
 		branch1.birds.append(b)
 
 	assert(branch1.check_full_set() == true, "Should be full set")

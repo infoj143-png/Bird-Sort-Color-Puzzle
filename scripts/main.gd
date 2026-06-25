@@ -101,6 +101,7 @@ func handle_tap(pos: Vector2):
 			if clicked_branch.can_receive_birds(color, moving_birds.size()):
 				# Perform move
 				var removed = selected_branch.remove_birds(moving_birds.size())
+				removed.reverse() # Maintain order when adding to new branch
 				for bird in removed:
 					bird.set_selected(false)
 					clicked_branch.add_bird(bird)

@@ -1,0 +1,6 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body: Round and plump -->
+  <path d="M64,115 C35,115 15,90 15,60 C15,30 35,10 64,10 C93,10 113,30 113,60 C113,90 93,115 64,115 Z" fill="white" />
+  <!-- Belly highlight area -->
+  <path d="M64,105 C45,105 30,90 30,70 C30,55 45,45 64,45 C83,45 98,55 98,70 C98,90 83,105 64,105 Z" fill="white" fill-opacity="0.3" />
+</svg>

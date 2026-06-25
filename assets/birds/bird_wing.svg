@@ -1,6 +1,7 @@
 <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-  <!-- Wing: Curved and feathery -->
-  <path d="M20,60 C20,40 40,30 60,35 C80,40 90,60 85,85 C80,105 60,110 40,100 C25,90 20,75 20,60 Z" fill="white" stroke="#333" stroke-width="3"/>
-  <!-- Feather details -->
-  <path d="M40,55 L35,65 M50,50 L45,60 M60,48 L55,58" stroke="#333" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <!-- Detailed Wing -->
+  <path d="M20,60 C20,35 45,25 65,30 C85,35 95,60 90,85 C85,105 60,110 40,100 C25,90 20,75 20,60 Z" fill="white" stroke="#333" stroke-width="3"/>
+  <!-- Feathers -->
+  <path d="M45,55 L35,70 M55,50 L45,65 M65,48 L55,63" stroke="#333" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M30,80 Q40,90 55,85" fill="none" stroke="#333" stroke-width="1.5" opacity="0.3"/>
 </svg>

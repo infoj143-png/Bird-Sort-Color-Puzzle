@@ -1,0 +1,6 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tail: Three feathers -->
+  <path d="M10,64 C10,40 30,30 50,40 L60,64 L50,88 C30,98 10,88 10,64 Z" fill="white" stroke="#333" stroke-width="3"/>
+  <path d="M15,50 C15,30 35,20 55,30 L65,54 L55,78 C35,88 15,78 15,50 Z" fill="white" stroke="#333" stroke-width="3" transform="rotate(-15, 64, 64)"/>
+  <path d="M15,78 C15,58 35,48 55,58 L65,82 L55,106 C35,116 15,106 15,78 Z" fill="white" stroke="#333" stroke-width="3" transform="rotate(15, 64, 64)"/>
+</svg>

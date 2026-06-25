@@ -1,37 +1,49 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/bird.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/birds/bird_shadow.svg" id="2_shadow"]
-[ext_resource type="Texture2D" path="res://assets/birds/bird_body.svg" id="3_body"]
-[ext_resource type="Texture2D" path="res://assets/birds/bird_wing.svg" id="4_wing"]
-[ext_resource type="Texture2D" path="res://assets/birds/bird_beak.svg" id="5_beak"]
-[ext_resource type="Texture2D" path="res://assets/birds/bird_eye.svg" id="6_eye"]
+[ext_resource type="Texture2D" path="res://assets/birds/bird_tail.svg" id="3_tail"]
+[ext_resource type="Texture2D" path="res://assets/birds/bird_body.svg" id="4_body"]
+[ext_resource type="Texture2D" path="res://assets/birds/bird_wing.svg" id="5_wing"]
+[ext_resource type="Texture2D" path="res://assets/birds/bird_beak.svg" id="6_beak"]
+[ext_resource type="Texture2D" path="res://assets/birds/bird_eye.svg" id="7_eye"]
+[ext_resource type="Texture2D" path="res://assets/birds/bird_feet.svg" id="8_feet"]
 
 [node name="Bird" type="Node2D"]
 script = ExtResource("1_script")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(0, 45)
-scale = Vector2(1, 1)
+position = Vector2(0, 65)
+scale = Vector2(1.2, 1.2)
 texture = ExtResource("2_shadow")
 
 [node name="Visuals" type="Node2D" parent="."]
 
+[node name="Tail" type="Sprite2D" parent="Visuals"]
+position = Vector2(-45, 20)
+scale = Vector2(1, 1)
+texture = ExtResource("3_tail")
+
 [node name="Body" type="Sprite2D" parent="Visuals"]
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("3_body")
+scale = Vector2(1, 1)
+texture = ExtResource("4_body")
 
 [node name="Wing" type="Sprite2D" parent="Visuals"]
-position = Vector2(-25, 10)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("4_wing")
+position = Vector2(-30, 15)
+scale = Vector2(1, 1)
+texture = ExtResource("5_wing")
 
 [node name="Beak" type="Sprite2D" parent="Visuals"]
-position = Vector2(40, 0)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("5_beak")
+position = Vector2(50, 0)
+scale = Vector2(1, 1)
+texture = ExtResource("6_beak")
 
 [node name="Eye" type="Sprite2D" parent="Visuals"]
-position = Vector2(20, -20)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("6_eye")
+position = Vector2(25, -25)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("7_eye")
+
+[node name="Feet" type="Sprite2D" parent="Visuals"]
+position = Vector2(0, 50)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("8_feet")

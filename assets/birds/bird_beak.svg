@@ -1,6 +1,6 @@
 <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-  <!-- Beak: Upper part (Curved) -->
-  <path d="M20,40 C50,40 70,55 70,85 L40,75 C30,70 20,60 20,40 Z" fill="#FFD700" stroke="#333" stroke-width="2"/>
-  <!-- Beak: Lower part -->
-  <path d="M22,65 C35,65 45,75 40,85 L25,80 Z" fill="#FFA500" stroke="#333" stroke-width="1"/>
+  <!-- Detailed Beak -->
+  <path d="M20,40 C55,40 75,55 75,90 L45,80 C35,75 20,65 20,40 Z" fill="#FFD700" stroke="#333" stroke-width="3"/>
+  <path d="M22,68 C40,68 50,78 45,90 L25,85 Z" fill="#FFA500" stroke="#333" stroke-width="1.5"/>
+  <path d="M25,45 L40,45" stroke="#B8860B" stroke-width="1" opacity="0.5"/>
 </svg>

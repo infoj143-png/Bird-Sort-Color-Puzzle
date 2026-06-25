@@ -1,8 +1,10 @@
 <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-  <!-- Eye: Large black pupil -->
-  <circle cx="64" cy="64" r="50" fill="black"/>
-  <!-- Highlight 1 -->
-  <circle cx="45" cy="45" r="18" fill="white"/>
-  <!-- Highlight 2 -->
-  <circle cx="75" cy="75" r="8" fill="white"/>
+  <!-- Detailed Kawaii Eye -->
+  <circle cx="64" cy="64" r="55" fill="white" stroke="#333" stroke-width="2"/>
+  <circle cx="64" cy="64" r="45" fill="black"/>
+  <!-- Iris color detail (subtle) -->
+  <circle cx="64" cy="64" r="40" fill="#333" opacity="0.5"/>
+  <!-- Highlights -->
+  <circle cx="45" cy="45" r="20" fill="white"/>
+  <circle cx="75" cy="75" r="10" fill="white"/>
 </svg>

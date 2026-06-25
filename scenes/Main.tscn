@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/Bird.tscn" id="2_bird"]
 [ext_resource type="PackedScene" path="res://scenes/Branch.tscn" id="3_branch"]
+[ext_resource type="Texture2D" path="res://assets/birds/forest_bg.svg" id="4_bg"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_script")
@@ -12,13 +13,15 @@ branch_scene = ExtResource("3_branch")
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="ColorRect" type="ColorRect" parent="Background"]
+[node name="TextureRect" type="TextureRect" parent="Background"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.95, 0.95, 0.9, 1)
+texture = ExtResource("4_bg")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="Branches" type="Node2D" parent="."]
 

@@ -12,6 +12,8 @@ enum BirdColor { RED, BLUE, GREEN, YELLOW, PINK, PURPLE, BLACK, WHITE, BROWN }
 @onready var body = $Visuals/Body
 @onready var wing = $Visuals/Wing
 @onready var eye = $Visuals/Eye
+@onready var tail = $Visuals/Tail
+@onready var feet = $Visuals/Feet
 @onready var shadow = $Shadow
 
 var _selection_tween: Tween
@@ -45,6 +47,7 @@ func update_color_visual():
 
 	body.self_modulate = modulate_color
 	wing.self_modulate = modulate_color
+	tail.self_modulate = modulate_color
 
 func start_idle_animation():
 	if _idle_tween:
@@ -66,7 +69,7 @@ func start_idle_animation():
 func play_blink():
 	var tween = create_tween()
 	tween.tween_property(eye, "scale:y", 0.05, 0.1)
-	tween.tween_property(eye, "scale:y", 0.6, 0.1)
+	tween.tween_property(eye, "scale:y", 0.7, 0.1)
 
 func set_selected(selected: bool):
 	is_selected = selected

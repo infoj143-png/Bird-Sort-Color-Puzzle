@@ -1,0 +1,5 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bird Feet -->
+  <path d="M20,40 L15,55 M20,40 L20,55 M20,40 L25,55" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+  <path d="M44,40 L39,55 M44,40 L44,55 M44,40 L49,55" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+</svg>

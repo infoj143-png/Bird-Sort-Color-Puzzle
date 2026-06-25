@@ -1,14 +1,18 @@
-<svg width="400" height="40" viewBox="0 0 400 40" xmlns="http://www.w3.org/2000/svg">
+<svg width="400" height="50" viewBox="0 0 400 50" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="branchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="woodGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#703E14;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#5D2E0C;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <path d="M10,20 Q10,5 30,5 L370,5 Q390,5 390,20 Q390,35 370,35 L30,35 Q10,35 10,20 Z" fill="url(#branchGrad)" />
-  <!-- Texture/Knots -->
-  <circle cx="50" cy="15" r="3" fill="#4A2508" opacity="0.4" />
-  <circle cx="150" cy="25" r="4" fill="#4A2508" opacity="0.4" />
-  <circle cx="280" cy="12" r="2" fill="#4A2508" opacity="0.4" />
-  <path d="M80,10 L120,10 M200,30 L250,30 M300,15 L330,15" stroke="#4A2508" stroke-width="2" opacity="0.3" stroke-linecap="round" />
+  <path d="M10,25 Q10,5 30,5 L370,5 Q390,5 390,25 Q390,45 370,45 L30,45 Q10,45 10,25 Z" fill="url(#woodGrad)" />
+  <!-- Wood Texture -->
+  <path d="M40,15 L360,15" stroke="#4A2508" stroke-width="1" opacity="0.3"/>
+  <path d="M20,25 L380,25" stroke="#4A2508" stroke-width="1" opacity="0.3"/>
+  <path d="M40,35 L360,35" stroke="#4A2508" stroke-width="1" opacity="0.3"/>
+  <!-- Knots -->
+  <ellipse cx="60" cy="20" rx="8" ry="4" fill="#4A2508" opacity="0.4" />
+  <ellipse cx="250" cy="30" rx="10" ry="5" fill="#4A2508" opacity="0.4" />
+  <ellipse cx="340" cy="15" rx="6" ry="3" fill="#4A2508" opacity="0.4" />
 </svg>

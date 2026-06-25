@@ -49,8 +49,10 @@ func setup_level_1():
 				branch.add_bird(bird)
 
 func setup_random_level():
-	var num_branches = min(10, 4 + floor(current_level / 2))
-	var num_colors = min(6, 2 + floor(current_level / 3))
+	# Number of colors increases every 3 levels, max 9
+	var num_colors = min(9, 2 + floor((current_level - 1) / 3))
+	# Number of branches: num_colors + 2 empty branches
+	var num_branches = num_colors + 2
 
 	var colors = []
 	for i in range(num_colors):
@@ -61,7 +63,16 @@ func setup_random_level():
 	for i in range(num_branches):
 		var branch = branch_scene.instantiate()
 		branch_container.add_child(branch)
-		branch.position = Vector2(360, 200 + i * 150)
+
+		# Distribute branches in two columns if many
+		if num_branches <= 7:
+			branch.position = Vector2(360, 200 + i * 150)
+		else:
+			var column = 0 if i < (num_branches + 1) / 2 else 1
+			var row = i if column == 0 else i - (num_branches + 1) / 2
+			branch.position = Vector2(180 + column * 360, 250 + row * 220)
+			branch.scale = Vector2(0.8, 0.8) # Scale down for two columns
+
 		branches.append(branch)
 
 		if i < num_colors:

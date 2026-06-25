@@ -1,6 +1,6 @@
 extends Node2D
 
-enum BirdColor { RED, BLUE, GREEN, YELLOW, PINK, ORANGE }
+enum BirdColor { RED, BLUE, GREEN, YELLOW, PINK, PURPLE, BLACK, WHITE, BROWN }
 
 @export var color: BirdColor = BirdColor.RED:
 	set(value):
@@ -18,12 +18,15 @@ func _ready():
 func update_color_visual():
 	if not is_inside_tree(): return
 	match color:
-		BirdColor.RED: modulate = Color(1.0, 0.35, 0.35)
-		BirdColor.BLUE: modulate = Color(0.35, 0.6, 1.0)
-		BirdColor.GREEN: modulate = Color(0.4, 0.85, 0.4)
-		BirdColor.YELLOW: modulate = Color(1.0, 0.9, 0.3)
-		BirdColor.PINK: modulate = Color(1.0, 0.4, 0.75)
-		BirdColor.ORANGE: modulate = Color(1.0, 0.7, 0.2)
+		BirdColor.RED: modulate = Color(1.0, 0.3, 0.3)
+		BirdColor.BLUE: modulate = Color(0.3, 0.5, 1.0)
+		BirdColor.GREEN: modulate = Color(0.3, 0.8, 0.3)
+		BirdColor.YELLOW: modulate = Color(1.0, 0.9, 0.2)
+		BirdColor.PINK: modulate = Color(1.0, 0.5, 0.8)
+		BirdColor.PURPLE: modulate = Color(0.6, 0.3, 0.9)
+		BirdColor.BLACK: modulate = Color(0.2, 0.2, 0.2)
+		BirdColor.WHITE: modulate = Color(1.0, 1.0, 1.0)
+		BirdColor.BROWN: modulate = Color(0.5, 0.3, 0.1)
 
 func set_selected(selected: bool):
 	is_selected = selected

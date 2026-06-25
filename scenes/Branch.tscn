@@ -12,13 +12,13 @@ texture = ExtResource("2_texture")
 [node name="Slots" type="Node2D" parent="."]
 
 [node name="Slot1" type="Marker2D" parent="Slots"]
-position = Vector2(-135, -25)
+position = Vector2(-150, -35)
 
 [node name="Slot2" type="Marker2D" parent="Slots"]
-position = Vector2(-45, -25)
+position = Vector2(-50, -35)
 
 [node name="Slot3" type="Marker2D" parent="Slots"]
-position = Vector2(45, -25)
+position = Vector2(50, -35)
 
 [node name="Slot4" type="Marker2D" parent="Slots"]
-position = Vector2(135, -25)
+position = Vector2(150, -35)

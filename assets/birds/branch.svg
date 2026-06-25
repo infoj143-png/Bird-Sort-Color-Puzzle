@@ -1,0 +1,14 @@
+<svg width="400" height="40" viewBox="0 0 400 40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="branchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5D2E0C;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M10,20 Q10,5 30,5 L370,5 Q390,5 390,20 Q390,35 370,35 L30,35 Q10,35 10,20 Z" fill="url(#branchGrad)" />
+  <!-- Texture/Knots -->
+  <circle cx="50" cy="15" r="3" fill="#4A2508" opacity="0.4" />
+  <circle cx="150" cy="25" r="4" fill="#4A2508" opacity="0.4" />
+  <circle cx="280" cy="12" r="2" fill="#4A2508" opacity="0.4" />
+  <path d="M80,10 L120,10 M200,30 L250,30 M300,15 L330,15" stroke="#4A2508" stroke-width="2" opacity="0.3" stroke-linecap="round" />
+</svg>

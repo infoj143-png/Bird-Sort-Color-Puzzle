@@ -10,14 +10,14 @@ func _ready():
 
 func add_bird(bird: Node2D):
 	birds.append(bird)
-	var target_pos = slots.get_child(birds.size() - 1).position
+	var target_slot = slots.get_child(birds.size() - 1)
 
 	if bird.get_parent():
-		bird.reparent(self)
+		bird.reparent(target_slot)
 	else:
-		add_child(bird)
+		target_slot.add_child(bird)
 
-	bird.move_to(target_pos)
+	bird.move_to(Vector2.ZERO)
 
 func remove_birds(count: int) -> Array:
 	var removed = []

@@ -2,10 +2,15 @@ extends Node2D
 
 enum BirdColor { RED, BLUE, GREEN, YELLOW, PINK, ORANGE }
 
-@export var color: BirdColor = BirdColor.RED
+@export var color: BirdColor = BirdColor.RED:
+	set(value):
+		color = value
+		update_color_visual()
 @export var is_selected: bool = false
 
 @onready var sprite = $Sprite2D
+
+var _selection_tween: Tween
 
 func _ready():
 	update_color_visual()
@@ -25,10 +30,13 @@ func set_selected(selected: bool):
 	var target_y = -20 if is_selected else 0
 	var target_scale = Vector2(1.2, 1.2) if is_selected else Vector2(1.0, 1.0)
 
-	var tween = create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(self, "position:y", target_y, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "scale", target_scale, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	if _selection_tween:
+		_selection_tween.kill()
+
+	_selection_tween = create_tween()
+	_selection_tween.set_parallel(true)
+	_selection_tween.tween_property(self, "position:y", target_y, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_selection_tween.tween_property(self, "scale", target_scale, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func move_to(target_position: Vector2):
 	var tween = create_tween()

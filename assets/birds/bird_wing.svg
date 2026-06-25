@@ -1,4 +1,6 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Wing: Tear drop shape -->
-  <path d="M10,32 C10,15 30,5 50,15 C55,20 55,45 45,55 C35,65 10,50 10,32 Z" fill="white" />
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wing: Curved and feathery -->
+  <path d="M20,60 C20,40 40,30 60,35 C80,40 90,60 85,85 C80,105 60,110 40,100 C25,90 20,75 20,60 Z" fill="white" stroke="#333" stroke-width="3"/>
+  <!-- Feather details -->
+  <path d="M40,55 L35,65 M50,50 L45,60 M60,48 L55,58" stroke="#333" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
 </svg>

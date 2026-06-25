@@ -13,22 +13,22 @@ func _ready():
 func update_color_visual():
 	if not is_inside_tree(): return
 	match color:
-		BirdColor.RED: modulate = Color.RED
-		BirdColor.BLUE: modulate = Color.BLUE
-		BirdColor.GREEN: modulate = Color.GREEN
-		BirdColor.YELLOW: modulate = Color.YELLOW
-		BirdColor.PINK: modulate = Color.DEEP_PINK
-		BirdColor.ORANGE: modulate = Color.ORANGE
+		BirdColor.RED: modulate = Color(1.0, 0.35, 0.35)
+		BirdColor.BLUE: modulate = Color(0.35, 0.6, 1.0)
+		BirdColor.GREEN: modulate = Color(0.4, 0.85, 0.4)
+		BirdColor.YELLOW: modulate = Color(1.0, 0.9, 0.3)
+		BirdColor.PINK: modulate = Color(1.0, 0.4, 0.75)
+		BirdColor.ORANGE: modulate = Color(1.0, 0.7, 0.2)
 
 func set_selected(selected: bool):
 	is_selected = selected
-	if is_selected:
-		# Simple jump up animation
-		scale = Vector2(1.2, 1.2)
-		position.y -= 20
-	else:
-		scale = Vector2(1.0, 1.0)
-		position.y += 20 # Reset position
+	var target_y = -20 if is_selected else 0
+	var target_scale = Vector2(1.2, 1.2) if is_selected else Vector2(1.0, 1.0)
+
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "position:y", target_y, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", target_scale, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func move_to(target_position: Vector2):
 	var tween = create_tween()

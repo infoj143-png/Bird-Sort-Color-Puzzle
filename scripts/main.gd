@@ -5,6 +5,7 @@ extends Node2D
 
 var selected_branch: Node2D = null
 var branches: Array = []
+var current_level: int = 1
 
 @onready var branch_container = $Branches
 @onready var level_complete_ui = $CanvasLayer/LevelComplete
@@ -14,22 +15,56 @@ func _ready():
 
 func start_level():
 	level_complete_ui.hide()
+	selected_branch = null
 	for child in branch_container.get_children():
 		child.queue_free()
 	branches.clear()
 
-	# Simple level generation for demo
-	# 3 branches with birds, 2 empty
-	var colors = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2]
-	colors.shuffle()
+	if current_level == 1:
+		setup_level_1()
+	else:
+		setup_random_level()
 
-	for i in range(5):
+func setup_level_1():
+	# 4 branches
+	for i in range(4):
 		var branch = branch_scene.instantiate()
 		branch_container.add_child(branch)
-		branch.position = Vector2(360, 250 + i * 180)
+		branch.position = Vector2(360, 300 + i * 200)
 		branches.append(branch)
 
-		if i < 3:
+		if i == 0:
+			# [RED, BLUE, RED, BLUE]
+			var colors = [0, 1, 0, 1]
+			for c in colors:
+				var bird = bird_scene.instantiate()
+				bird.color = c
+				branch.add_bird(bird)
+		elif i == 1:
+			# [BLUE, RED, BLUE, RED]
+			var colors = [1, 0, 1, 0]
+			for c in colors:
+				var bird = bird_scene.instantiate()
+				bird.color = c
+				branch.add_bird(bird)
+
+func setup_random_level():
+	var num_branches = min(10, 4 + floor(current_level / 2))
+	var num_colors = min(6, 2 + floor(current_level / 3))
+
+	var colors = []
+	for i in range(num_colors):
+		for j in range(4):
+			colors.append(i)
+	colors.shuffle()
+
+	for i in range(num_branches):
+		var branch = branch_scene.instantiate()
+		branch_container.add_child(branch)
+		branch.position = Vector2(360, 200 + i * 150)
+		branches.append(branch)
+
+		if i < num_colors:
 			for j in range(4):
 				var bird = bird_scene.instantiate()
 				bird.color = colors.pop_back()
@@ -79,7 +114,6 @@ func handle_tap(pos: Vector2):
 				selected_branch = null
 
 func get_branch_at_pos(pos: Vector2) -> Node2D:
-	# Branch is 400x20. We check for a rectangular area around branch.position
 	for branch in branches:
 		var rect = Rect2(branch.position.x - 200, branch.position.y - 100, 400, 150)
 		if rect.has_point(pos):
@@ -92,7 +126,15 @@ func check_for_matches():
 	for branch in branches:
 		if branch.check_full_set():
 			branch.fly_away_all()
-		elif not branch.birds.is_empty():
+
+		# Yield slightly to allow fly away animation to start before checking if all cleared
+		# In a real game we might wait for animations to finish
+
+	# Wait a frame to let birds be removed from branch.birds if they flew away
+	await get_tree().process_frame
+
+	for branch in branches:
+		if not branch.birds.is_empty():
 			all_cleared = false
 
 	if all_cleared:
@@ -105,4 +147,5 @@ func _on_restart_pressed():
 	start_level()
 
 func _on_next_level_pressed():
+	current_level += 1
 	start_level()

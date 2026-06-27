@@ -28,16 +28,16 @@ func start_level():
 		setup_random_level()
 
 func setup_level_1():
-	# 4 branches
-	for i in range(4):
+	# 6 branches for Android portrait premium look
+	for i in range(6):
 		var branch = branch_scene.instantiate()
 		branch_container.add_child(branch)
 		# Optimized vertical spacing for 720x1280
-		branch.position = Vector2(360, 420 + i * 200)
+		branch.position = Vector2(360, 350 + i * 160)
 		branches.append(branch)
 
 		if i == 0:
-			var colors = [0, 1, 0, 1]
+			var colors = [0, 1, 0, 1] # Red and Green
 			for c in colors:
 				var bird = bird_scene.instantiate()
 				bird.color = c
@@ -93,13 +93,19 @@ func _input(event):
 		handle_tap(event.position)
 
 func handle_tap(pos: Vector2):
-	var clicked_branch = get_branch_at_pos(pos)
-	if not clicked_branch:
+	var hit = get_hit_info(pos)
+	if not hit:
 		return
+
+	var clicked_branch = hit.branch
+	var clicked_bird = hit.bird
 
 	if selected_branch == null:
 		if not clicked_branch.birds.is_empty():
-			select_branch(clicked_branch)
+			var top_birds = clicked_branch.get_top_birds_of_same_color()
+			# Exact tap logic: only select if tapping the branch or the top color group
+			if clicked_bird == null or clicked_bird in top_birds:
+				select_branch(clicked_branch)
 	else:
 		if selected_branch == clicked_branch:
 			deselect_current_branch()
@@ -117,11 +123,14 @@ func handle_tap(pos: Vector2):
 				selected_branch = null
 				check_for_matches()
 			else:
-				# If we can't move to this branch, but the clicked branch has birds,
-				# switch selection to the clicked branch.
+				# Switch selection if the clicked branch has a valid top color group tapped
 				if not clicked_branch.birds.is_empty():
-					deselect_current_branch()
-					select_branch(clicked_branch)
+					var top_birds = clicked_branch.get_top_birds_of_same_color()
+					if clicked_bird == null or clicked_bird in top_birds:
+						deselect_current_branch()
+						select_branch(clicked_branch)
+					else:
+						deselect_current_branch()
 				else:
 					deselect_current_branch()
 
@@ -138,15 +147,23 @@ func deselect_current_branch():
 			bird.set_selected(false)
 		selected_branch = null
 
-func get_branch_at_pos(pos: Vector2) -> Node2D:
+func get_hit_info(pos: Vector2):
 	for branch in branches:
-		# Use a narrower width to prevent overlap in two-column layouts
-		var width = 350 * branch.scale.x
-		var height = 180 * branch.scale.y
-		# Offset Y to better cover both the branch and the birds on it
-		var rect = Rect2(branch.position.x - width/2, branch.position.y - height/2 - 100, width, height + 100)
-		if rect.has_point(pos):
-			return branch
+		# Check birds first (top to bottom hit detection)
+		for i in range(branch.birds.size() - 1, -1, -1):
+			var bird = branch.birds[i]
+			var b_pos = bird.global_position
+			# Precise bird hitbox (approx 80x110 at BASE_SCALE 0.25)
+			var bw = 80 * branch.scale.x
+			var bh = 110 * branch.scale.y
+			if Rect2(b_pos.x - bw/2, b_pos.y - bh, bw, bh).has_point(pos):
+				return {"branch": branch, "bird": bird}
+
+		# Check branch itself
+		var width = 520.0 * branch.scale.x
+		var height = 60.0 * branch.scale.y
+		if Rect2(branch.position.x - width/2, branch.position.y - height/2, width, height).has_point(pos):
+			return {"branch": branch, "bird": null}
 	return null
 
 func check_for_matches():

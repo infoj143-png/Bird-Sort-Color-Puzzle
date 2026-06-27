@@ -1,6 +1,6 @@
 extends Node2D
 
-enum BirdColor { RED, BLUE, GREEN, YELLOW, PINK, PURPLE, BLACK, WHITE, BROWN }
+enum BirdColor { RED, GREEN, BLUE, YELLOW, PINK, PURPLE, BLACK, WHITE, BROWN }
 
 @export var color: BirdColor = BirdColor.RED:
 	set(value):

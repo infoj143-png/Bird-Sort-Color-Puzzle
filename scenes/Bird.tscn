@@ -13,3 +13,5 @@ polygon = PackedVector2Array(-50, -5, -30, -12, 30, -12, 50, -5, 30, 2, -30, 2)
 
 [node name="Body" type="Sprite2D" parent="Visuals"]
 scale = Vector2(0.25, 0.25)
+region_enabled = true
+region_rect = Rect2(0, 0, 0, 0)

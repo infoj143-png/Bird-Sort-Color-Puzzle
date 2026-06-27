@@ -24,13 +24,13 @@ func update_branch_visual():
 			sprite.scale = Vector2(s, s)
 
 			# Optimal slot spacing for exactly 4 birds
-			var total_width = target_width * 0.85
+			var total_width = target_width * 0.7
 			var spacing = total_width / (MAX_BIRDS - 1)
 			for i in range(slots.get_child_count()):
 				var slot = slots.get_child(i)
 				var x_pos = -(total_width / 2.0) + i * spacing
 				# Sit perfectly on top of the wooden branch visual
-				slot.position = Vector2(x_pos, -5)
+				slot.position = Vector2(x_pos, -15)
 
 func add_bird(bird: Node2D):
 	birds.append(bird)

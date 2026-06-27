@@ -96,24 +96,25 @@ func set_selected(selected: bool):
 
 	if is_selected:
 		var target_y = -70
-		_selection_tween.tween_property(self, "position:y", target_y, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		_selection_tween.tween_property(visuals, "position:y", target_y, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		_selection_tween.finished.connect(func():
 			if is_selected:
 				_selection_tween = create_tween().set_loops()
-				_selection_tween.tween_property(visuals, "position:y", -25, 0.4).set_trans(Tween.TRANS_SINE)
-				_selection_tween.tween_property(visuals, "position:y", 0, 0.4).set_trans(Tween.TRANS_SINE)
+				_selection_tween.tween_property(visuals, "position:y", -95, 0.4).set_trans(Tween.TRANS_SINE)
+				_selection_tween.tween_property(visuals, "position:y", -70, 0.4).set_trans(Tween.TRANS_SINE)
 		)
 		# Shadow fades when jumping
 		create_tween().tween_property(shadow, "modulate:a", 0.1, 0.25)
 		create_tween().tween_property(shadow, "scale", Vector2(0.5, 0.5), 0.25)
 	else:
-		_selection_tween.tween_property(self, "position:y", 0, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		visuals.position.y = 0
+		_selection_tween.tween_property(visuals, "position:y", 0, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		create_tween().tween_property(shadow, "modulate:a", 0.3, 0.25)
 		update_color_visual() # Reset shadow scale
 
 func move_to(target_position: Vector2):
 	if _idle_tween: _idle_tween.pause()
+	if _selection_tween: _selection_tween.kill()
+	visuals.position.y = 0
 	shadow.hide()
 
 	var start_pos = position

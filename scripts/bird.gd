@@ -18,17 +18,17 @@ var _selection_tween: Tween
 var _idle_tween: Tween
 var _blink_timer: float = 0.0
 
-# ✨ NEW: Bird image textures dictionary (Julie's par banegi ye images)
+# ✨ BIRD TEXTURES - EXACT GITHUB FILE NAMES
 var bird_textures = {
-	BirdColor.RED: preload("res://assets/birds/bird_0_red_macaw.png"),
-	BirdColor.BLUE: preload("res://assets/birds/bird_2_blue_jay.png"),
-	BirdColor.GREEN: preload("res://assets/birds/bird_1_green_parrot.png"),
-	BirdColor.YELLOW: preload("res://assets/birds/bird_3_yellow_canary.png"),
-	BirdColor.PINK: preload("res://assets/birds/bird_4_pink_cockatoo.png"),
-	BirdColor.PURPLE: preload("res://assets/birds/bird_5_purple_bird.png"),
-	BirdColor.BLACK: preload("res://assets/birds/bird_6_black_crow.png"),
-	BirdColor.WHITE: preload("res://assets/birds/bird_7_white_dove.png"),
-	BirdColor.BROWN: preload("res://assets/birds/bird_8_brown_owl.png"),
+	BirdColor.RED: preload("res://assets/birds/bird_0_red_macawpng.png"),
+	BirdColor.GREEN: preload("res://assets/birds/bird_1_green_parrotpng.png"),
+	BirdColor.BLUE: preload("res://assets/birds/bird_2_blue_jaypng.png"),
+	BirdColor.YELLOW: preload("res://assets/birds/bird_3_yellow_canarypng.png"),
+	BirdColor.PINK: preload("res://assets/birds/bird_4_pink_cockatoopng.png"),
+	BirdColor.PURPLE: preload("res://assets/birds/bird_5_purple_birdpng.png"),
+	BirdColor.BLACK: preload("res://assets/birds/bird_6_black_crowpng.png"),
+	BirdColor.WHITE: preload("res://assets/birds/bird_7_white_dovepng.png"),
+	BirdColor.BROWN: preload("res://assets/birds/bird_8_brown_owlpng.png"),
 }
 
 func _ready():
@@ -45,16 +45,14 @@ func _process(delta):
 func update_color_visual():
 	if not is_inside_tree(): return
 	
-	# ✨ NEW: Load PNG texture if available
 	if color in bird_textures:
 		var texture = bird_textures[color]
 		if texture:
 			body.texture = texture
-			body.self_modulate = Color.WHITE  # No color tint for realistic birds
-			wing.hide()  # Hide SVG wing if using PNG
+			body.self_modulate = Color.WHITE
+			wing.hide()
 			return
 	
-	# ✨ FALLBACK: Use original color modulation (for backward compatibility)
 	var modulate_color = Color.WHITE
 	match color:
 		BirdColor.RED: modulate_color = Color("#ff5e5e")
@@ -77,11 +75,9 @@ func start_idle_animation():
 	_idle_tween = create_tween().set_loops()
 	_idle_tween.set_parallel(true)
 
-	# Breathing scale
 	_idle_tween.tween_property(visuals, "scale:y", 1.05, 1.5).set_trans(Tween.TRANS_SINE)
 	_idle_tween.chain().tween_property(visuals, "scale:y", 1.0, 1.5).set_trans(Tween.TRANS_SINE)
 
-	# Subtle rotation
 	_idle_tween.tween_property(visuals, "rotation_degrees", 2.0, 2.0).set_trans(Tween.TRANS_SINE)
 	_idle_tween.chain().tween_property(visuals, "rotation_degrees", -2.0, 2.0).set_trans(Tween.TRANS_SINE)
 
@@ -120,20 +116,16 @@ func move_to(target_position: Vector2):
 	var tween = create_tween()
 	tween.set_parallel(true)
 
-	# Horizontal movement
 	tween.tween_property(self, "position:x", target_position.x, 0.4).set_trans(Tween.TRANS_SINE)
 
-	# Rotation toward target
 	tween.tween_property(visuals, "rotation_degrees", 15.0 * direction, 0.2).set_trans(Tween.TRANS_QUAD)
 	tween.chain().tween_property(visuals, "rotation_degrees", 0.0, 0.2).set_trans(Tween.TRANS_QUAD)
 
-	# Vertical movement with arc
 	var mid_y = min(start_pos.y, target_position.y) - 200
 	var v_tween = create_tween()
 	v_tween.tween_property(self, "position:y", mid_y, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	v_tween.tween_property(self, "position:y", target_position.y, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
-	# Wing flapping
 	var flap_tween = create_tween().set_loops(4)
 	flap_tween.tween_property(wing, "rotation_degrees", -45, 0.05)
 	flap_tween.tween_property(wing, "rotation_degrees", 45, 0.05)
@@ -143,7 +135,6 @@ func move_to(target_position: Vector2):
 	flap_tween.kill()
 	wing.rotation_degrees = 0
 
-	# Juicy squash and stretch on landing
 	var land_tween = create_tween()
 	land_tween.tween_property(visuals, "scale", Vector2(1.3, 0.7), 0.1)
 	land_tween.tween_property(visuals, "scale", Vector2(0.9, 1.1), 0.1)
@@ -160,12 +151,10 @@ func fly_away():
 	var tween = create_tween()
 	tween.set_parallel(true)
 
-	# Fast flapping
 	var flap_tween = create_tween().set_loops()
 	flap_tween.tween_property(wing, "rotation_degrees", -45, 0.05)
 	flap_tween.tween_property(wing, "rotation_degrees", 45, 0.05)
 
-	# Fly up and away
 	tween.tween_property(self, "position:y", position.y - 1000, 1.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.tween_property(self, "position:x", position.x + randf_range(-200, 200), 1.5)
 	tween.tween_property(self, "rotation_degrees", 360, 1.5)

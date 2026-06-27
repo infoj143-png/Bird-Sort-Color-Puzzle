@@ -8,8 +8,9 @@ script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -1
-scale = Vector2(1, 1)
 texture = ExtResource("2_texture")
+region_enabled = true
+region_rect = Rect2(0, 0, 520, 180)
 
 [node name="Slots" type="Node2D" parent="."]
 

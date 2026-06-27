@@ -12,6 +12,8 @@ func _ready():
 func update_branch_visual():
 	if not sprite.texture: return
 
+	sprite.rotation = 0
+
 	var img = sprite.texture.get_image()
 	if img:
 		var rect = img.get_used_rect()

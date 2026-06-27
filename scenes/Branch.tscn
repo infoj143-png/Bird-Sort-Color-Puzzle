@@ -7,18 +7,21 @@
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+rotation = -0.785398
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_texture")
 
 [node name="Slots" type="Node2D" parent="."]
 
 [node name="Slot1" type="Marker2D" parent="Slots"]
-position = Vector2(-140, -45)
+position = Vector2(-140, -10)
 
 [node name="Slot2" type="Marker2D" parent="Slots"]
-position = Vector2(-45, -45)
+position = Vector2(-45, -10)
 
 [node name="Slot3" type="Marker2D" parent="Slots"]
-position = Vector2(45, -45)
+position = Vector2(45, -10)
 
 [node name="Slot4" type="Marker2D" parent="Slots"]
-position = Vector2(140, -45)
+position = Vector2(140, -10)

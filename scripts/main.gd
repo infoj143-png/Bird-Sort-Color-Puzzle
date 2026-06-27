@@ -31,7 +31,7 @@ func setup_level_1():
 		var branch = branch_scene.instantiate()
 		branch_container.add_child(branch)
 		# Centered on 720 width, spread vertically
-		branch.position = Vector2(360, 350 + i * 220)
+		branch.position = Vector2(360, 400 + i * 200)
 		branches.append(branch)
 
 		if i == 0:
@@ -130,9 +130,10 @@ func handle_tap(pos: Vector2):
 func get_branch_at_pos(pos: Vector2) -> Node2D:
 	for branch in branches:
 		# Adjust detection rect based on branch visual size and scaling
-		var width = 400 * branch.scale.x
-		var height = 150 * branch.scale.y
-		var rect = Rect2(branch.position.x - width/2, branch.position.y - height/2 - 20, width, height)
+		# The branch sprite is scaled to 0.4 in Branch.tscn
+		var width = 600 * branch.scale.x
+		var height = 120 * branch.scale.y
+		var rect = Rect2(branch.position.x - width/2, branch.position.y - height/2 - 40, width, height)
 		if rect.has_point(pos):
 			return branch
 	return null

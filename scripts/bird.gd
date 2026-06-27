@@ -47,6 +47,7 @@ func update_color_visual():
 		if texture:
 			body.texture = texture
 			body.self_modulate = Color.WHITE
+			body.scale = Vector2(0.25, 0.25)
 
 			# Auto-crop padding automatically
 			var img = texture.get_image()
@@ -56,7 +57,8 @@ func update_color_visual():
 					body.region_enabled = true
 					body.region_rect = rect
 					# Position the cropped sprite so its bottom center is at (0,0) local
-					body.position = Vector2(-rect.size.x / 2.0, -rect.size.y)
+					# We multiply by scale to ensure correct local positioning
+					body.position = Vector2(-rect.size.x * body.scale.x / 2.0, -rect.size.y * body.scale.y)
 
 func start_idle_animation():
 	if _idle_tween:
@@ -78,8 +80,8 @@ func start_idle_animation():
 func play_blink():
 	# Simplified blink for single sprite: slight scale down and up
 	var tween = create_tween()
-	tween.tween_property(body, "scale:y", 0.33, 0.1)
-	tween.tween_property(body, "scale:y", 0.35, 0.1)
+	tween.tween_property(body, "scale:y", 0.23, 0.1)
+	tween.tween_property(body, "scale:y", 0.25, 0.1)
 
 func set_selected(selected: bool):
 	is_selected = selected
@@ -121,13 +123,13 @@ func move_to(target_position: Vector2):
 
 	# Flapping animation using whole bird scale
 	var flap_tween = create_tween().set_loops(4)
+	flap_tween.tween_property(body, "scale:y", 0.2, 0.05)
 	flap_tween.tween_property(body, "scale:y", 0.3, 0.05)
-	flap_tween.tween_property(body, "scale:y", 0.4, 0.05)
 
 	await v_tween.finished
 
 	flap_tween.kill()
-	body.scale.y = 0.35
+	body.scale.y = 0.25
 
 	var land_tween = create_tween()
 	land_tween.tween_property(visuals, "scale", Vector2(1.2, 0.8), 0.1)
@@ -144,8 +146,8 @@ func fly_away():
 	tween.set_parallel(true)
 
 	var flap_tween = create_tween().set_loops()
+	flap_tween.tween_property(body, "scale:y", 0.2, 0.05)
 	flap_tween.tween_property(body, "scale:y", 0.3, 0.05)
-	flap_tween.tween_property(body, "scale:y", 0.4, 0.05)
 
 	tween.tween_property(self, "position:y", position.y - 1000, 1.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.tween_property(self, "position:x", position.x + randf_range(-200, 200), 1.5)

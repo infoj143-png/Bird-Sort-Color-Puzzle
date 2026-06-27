@@ -18,6 +18,19 @@ var _selection_tween: Tween
 var _idle_tween: Tween
 var _blink_timer: float = 0.0
 
+# ✨ NEW: Bird image textures dictionary (Julie's par banegi ye images)
+var bird_textures = {
+	BirdColor.RED: preload("res://assets/birds/bird_0_red_macaw.png"),
+	BirdColor.BLUE: preload("res://assets/birds/bird_2_blue_jay.png"),
+	BirdColor.GREEN: preload("res://assets/birds/bird_1_green_parrot.png"),
+	BirdColor.YELLOW: preload("res://assets/birds/bird_3_yellow_canary.png"),
+	BirdColor.PINK: preload("res://assets/birds/bird_4_pink_cockatoo.png"),
+	BirdColor.PURPLE: preload("res://assets/birds/bird_5_purple_bird.png"),
+	BirdColor.BLACK: preload("res://assets/birds/bird_6_black_crow.png"),
+	BirdColor.WHITE: preload("res://assets/birds/bird_7_white_dove.png"),
+	BirdColor.BROWN: preload("res://assets/birds/bird_8_brown_owl.png"),
+}
+
 func _ready():
 	update_color_visual()
 	start_idle_animation()
@@ -31,6 +44,17 @@ func _process(delta):
 
 func update_color_visual():
 	if not is_inside_tree(): return
+	
+	# ✨ NEW: Load PNG texture if available
+	if color in bird_textures:
+		var texture = bird_textures[color]
+		if texture:
+			body.texture = texture
+			body.self_modulate = Color.WHITE  # No color tint for realistic birds
+			wing.hide()  # Hide SVG wing if using PNG
+			return
+	
+	# ✨ FALLBACK: Use original color modulation (for backward compatibility)
 	var modulate_color = Color.WHITE
 	match color:
 		BirdColor.RED: modulate_color = Color("#ff5e5e")

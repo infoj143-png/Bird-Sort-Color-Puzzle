@@ -1,10 +1,12 @@
 extends Node2D
+class_name Branch
 
 const MAX_BIRDS = 4
 var birds: Array = []
 
 @onready var slots = $Slots
 @onready var sprite = $Sprite2D
+@onready var collision_shape = $Area2D/CollisionShape2D
 
 func _ready():
 	update_branch_visual()
@@ -26,13 +28,20 @@ func update_branch_visual():
 			sprite.scale = Vector2(s, s)
 
 			# Optimal slot spacing for exactly 4 birds
-			var total_width = target_width * 0.7
-			var spacing = total_width / (MAX_BIRDS - 1)
+			# Use 80% of target width for birds
+			var total_width = target_width * 0.8
+			var spacing = total_width / MAX_BIRDS
+			var start_x = -(total_width / 2.0) + (spacing / 2.0)
+
 			for i in range(slots.get_child_count()):
 				var slot = slots.get_child(i)
-				var x_pos = -(total_width / 2.0) + i * spacing
+				var x_pos = start_x + i * spacing
 				# Sit perfectly on top of the wooden branch visual
-				slot.position = Vector2(x_pos, -15)
+				slot.position = Vector2(x_pos, -45)
+
+			# Update collision shape
+			if collision_shape and collision_shape.shape is RectangleShape2D:
+				collision_shape.shape.size = Vector2(target_width, 80 * s)
 
 func add_bird(bird: Node2D):
 	birds.append(bird)

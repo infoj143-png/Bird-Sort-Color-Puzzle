@@ -1,4 +1,5 @@
 extends Node2D
+class_name Bird
 
 enum BirdColor { RED, GREEN, BLUE, YELLOW, PINK, PURPLE, BLACK, WHITE, BROWN }
 
@@ -11,12 +12,13 @@ enum BirdColor { RED, GREEN, BLUE, YELLOW, PINK, PURPLE, BLACK, WHITE, BROWN }
 @onready var visuals = $Visuals
 @onready var body = $Visuals/Body
 @onready var shadow = $Shadow
+@onready var collision_shape = $Area2D/CollisionShape2D
 
 var _selection_tween: Tween
 var _idle_tween: Tween
 var _blink_timer: float = 0.0
 
-const BASE_SCALE = 0.25
+const BASE_SCALE = 0.2
 
 var bird_textures = {
 	BirdColor.RED: preload("res://assets/birds/bird_0_red_macawpng.png"),
@@ -64,6 +66,13 @@ func update_color_visual():
 					# Adjust shadow size based on bird width
 					var shadow_w = rect.size.x * BASE_SCALE * 0.8
 					shadow.scale.x = shadow_w / 100.0
+
+					# Update collision shape
+					if collision_shape and collision_shape.shape is RectangleShape2D:
+						var sw = rect.size.x * BASE_SCALE
+						var sh = rect.size.y * BASE_SCALE
+						collision_shape.shape.size = Vector2(sw, sh)
+						collision_shape.position = Vector2(0, -sh / 2.0)
 
 func start_idle_animation():
 	if _idle_tween:

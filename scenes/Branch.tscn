@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/branch.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/birds/branch_woodenpng.png" id="2_texture"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_branch"]
+size = Vector2(520, 80)
 
 [node name="Branch" type="Node2D"]
 script = ExtResource("1_script")
@@ -25,3 +28,8 @@ position = Vector2(45, -10)
 
 [node name="Slot4" type="Marker2D" parent="Slots"]
 position = Vector2(140, -10)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_branch")

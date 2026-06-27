@@ -34,6 +34,8 @@ func setup_level_1():
 		branch_container.add_child(branch)
 		# Optimized vertical spacing for 720x1280
 		branch.position = Vector2(360, 350 + i * 160)
+		branch.rotation = 0
+		branch.scale = Vector2(0.75, 0.75)
 		branches.append(branch)
 
 		if i == 0:
@@ -67,6 +69,7 @@ func setup_random_level():
 			var vertical_start = 350
 			var vertical_spacing = (1150 - vertical_start) / (num_branches - 1) if num_branches > 1 else 0
 			branch.position = Vector2(360, vertical_start + i * vertical_spacing)
+			branch.rotation = 0
 		else:
 			var column = 0 if i < (num_branches + 1) / 2 else 1
 			var row = i if column == 0 else i - (num_branches + 1) / 2
@@ -78,6 +81,7 @@ func setup_random_level():
 			var row_height = (vertical_end - vertical_start) / (max(1, rows_in_col - 1)) if rows_in_col > 1 else 0
 
 			branch.position = Vector2(x_pos, vertical_start + row * row_height)
+			branch.rotation = 0
 			branch.scale = Vector2(0.65, 0.65)
 
 		branches.append(branch)
@@ -101,10 +105,10 @@ func handle_tap(pos: Vector2):
 	var clicked_bird = hit.bird
 
 	if selected_branch == null:
-		if not clicked_branch.birds.is_empty():
+		# Exact bird selection: must tap a bird, and it must be part of the top color group
+		if clicked_bird != null:
 			var top_birds = clicked_branch.get_top_birds_of_same_color()
-			# Exact tap logic: only select if tapping the branch or the top color group
-			if clicked_bird == null or clicked_bird in top_birds:
+			if clicked_bird in top_birds:
 				select_branch(clicked_branch)
 	else:
 		if selected_branch == clicked_branch:
@@ -148,23 +152,33 @@ func deselect_current_branch():
 		selected_branch = null
 
 func get_hit_info(pos: Vector2):
-	for branch in branches:
-		# Check birds first (top to bottom hit detection)
-		for i in range(branch.birds.size() - 1, -1, -1):
-			var bird = branch.birds[i]
-			var b_pos = bird.global_position
-			# Precise bird hitbox (approx 80x110 at BASE_SCALE 0.25)
-			var bw = 80 * branch.scale.x
-			var bh = 110 * branch.scale.y
-			if Rect2(b_pos.x - bw/2, b_pos.y - bh, bw, bh).has_point(pos):
-				return {"branch": branch, "bird": bird}
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsPointQueryParameters2D.new()
+	query.position = pos
+	query.collide_with_areas = true
 
-		# Check branch itself
-		var width = 520.0 * branch.scale.x
-		var height = 60.0 * branch.scale.y
-		if Rect2(branch.position.x - width/2, branch.position.y - height/2, width, height).has_point(pos):
-			return {"branch": branch, "bird": null}
-	return null
+	var results = space_state.intersect_point(query)
+	if results.is_empty():
+		return null
+
+	# Prioritize bird hits over branch hits
+	var branch_hit = null
+	for result in results:
+		var collider = result.collider
+		var parent = collider.get_parent()
+
+		if parent is Bird:
+			# Find which branch this bird belongs to
+			for branch in branches:
+				if bird_is_in_branch(parent, branch):
+					return {"branch": branch, "bird": parent}
+		elif parent is Branch:
+			branch_hit = {"branch": parent, "bird": null}
+
+	return branch_hit
+
+func bird_is_in_branch(bird: Node2D, branch: Node2D) -> bool:
+	return bird in branch.birds
 
 func check_for_matches():
 	await get_tree().process_frame # Wait for bird to arrive

@@ -1,9 +1,26 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/Bird.tscn" id="2_bird"]
 [ext_resource type="PackedScene" path="res://scenes/Branch.tscn" id="3_branch"]
 [ext_resource type="Texture2D" path="res://assets/birds/background_forestpng.png" id="4_bg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_restart"]
+bg_color = Color(0.254902, 0.588235, 0.956863, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 5
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_restart_hover"]
+bg_color = Color(0.352941, 0.666667, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_script")
@@ -36,17 +53,37 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="LevelLabel" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_font_sizes/font_size = 56
+text = "Level 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="RestartButton" type="Button" parent="CanvasLayer/UI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -150.0
-offset_top = 30.0
-offset_right = -30.0
-offset_bottom = 90.0
+offset_left = -180.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = 110.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_restart")
+theme_override_styles/hover = SubResource("StyleBoxFlat_restart_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_restart")
 text = "Restart"
 
 [node name="LevelComplete" type="Control" parent="CanvasLayer"]
@@ -65,7 +102,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.5)
+color = Color(0, 0, 0, 0.6)
 
 [node name="Panel" type="Panel" parent="CanvasLayer/LevelComplete"]
 layout_mode = 1

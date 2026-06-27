@@ -9,12 +9,14 @@ var current_level: int = 1
 
 @onready var branch_container = $Branches
 @onready var level_complete_ui = $CanvasLayer/LevelComplete
+@onready var level_label = $CanvasLayer/UI/LevelLabel
 
 func _ready():
 	start_level()
 
 func start_level():
 	level_complete_ui.hide()
+	level_label.text = "Level " + str(current_level)
 	selected_branch = null
 	for child in branch_container.get_children():
 		child.queue_free()
@@ -30,19 +32,17 @@ func setup_level_1():
 	for i in range(4):
 		var branch = branch_scene.instantiate()
 		branch_container.add_child(branch)
-		# Centered on 720 width, spread vertically
-		branch.position = Vector2(360, 350 + i * 220)
+		# Optimized vertical spacing for 720x1280
+		branch.position = Vector2(360, 420 + i * 200)
 		branches.append(branch)
 
 		if i == 0:
-			# [RED, BLUE, RED, BLUE]
 			var colors = [0, 1, 0, 1]
 			for c in colors:
 				var bird = bird_scene.instantiate()
 				bird.color = c
 				branch.add_bird(bird)
 		elif i == 1:
-			# [BLUE, RED, BLUE, RED]
 			var colors = [1, 0, 1, 0]
 			for c in colors:
 				var bird = bird_scene.instantiate()
@@ -50,9 +50,7 @@ func setup_level_1():
 				branch.add_bird(bird)
 
 func setup_random_level():
-	# Number of colors increases every 3 levels, max 9
 	var num_colors = min(9, 2 + floor((current_level - 1) / 3))
-	# Number of branches: num_colors + 2 empty branches
 	var num_branches = num_colors + 2
 
 	var colors = []
@@ -65,15 +63,22 @@ func setup_random_level():
 		var branch = branch_scene.instantiate()
 		branch_container.add_child(branch)
 
-		# Distribute branches in two columns if many
 		if num_branches <= 6:
-			branch.position = Vector2(360, 250 + i * 160)
+			var vertical_start = 350
+			var vertical_spacing = (1150 - vertical_start) / (num_branches - 1) if num_branches > 1 else 0
+			branch.position = Vector2(360, vertical_start + i * vertical_spacing)
 		else:
 			var column = 0 if i < (num_branches + 1) / 2 else 1
 			var row = i if column == 0 else i - (num_branches + 1) / 2
-			var num_rows = (num_branches + 1) / 2
-			branch.position = Vector2(180 + column * 360, 250 + row * (1000 / num_rows))
-			branch.scale = Vector2(0.7, 0.7) # Scale down for two columns
+			var rows_in_col = (num_branches + 1) / 2 if column == 0 else num_branches - (num_branches + 1) / 2
+
+			var x_pos = 185 if column == 0 else 535
+			var vertical_start = 350
+			var vertical_end = 1150
+			var row_height = (vertical_end - vertical_start) / (max(1, rows_in_col - 1)) if rows_in_col > 1 else 0
+
+			branch.position = Vector2(x_pos, vertical_start + row * row_height)
+			branch.scale = Vector2(0.65, 0.65)
 
 		branches.append(branch)
 
@@ -93,16 +98,13 @@ func handle_tap(pos: Vector2):
 		return
 
 	if selected_branch == null:
-		# Selecting
 		if not clicked_branch.birds.is_empty():
 			selected_branch = clicked_branch
 			var birds_to_select = selected_branch.get_top_birds_of_same_color()
 			for bird in birds_to_select:
 				bird.set_selected(true)
 	else:
-		# Moving
 		if selected_branch == clicked_branch:
-			# Deselect
 			var birds_to_deselect = selected_branch.get_top_birds_of_same_color()
 			for bird in birds_to_deselect:
 				bird.set_selected(false)
@@ -112,9 +114,8 @@ func handle_tap(pos: Vector2):
 			var color = moving_birds[0].color
 
 			if clicked_branch.can_receive_birds(color, moving_birds.size()):
-				# Perform move
 				var removed = selected_branch.remove_birds(moving_birds.size())
-				removed.reverse() # Maintain order when adding to new branch
+				removed.reverse()
 				for bird in removed:
 					bird.set_selected(false)
 					clicked_branch.add_bird(bird)
@@ -122,37 +123,36 @@ func handle_tap(pos: Vector2):
 				selected_branch = null
 				check_for_matches()
 			else:
-				# Invalid move, just deselect
 				for bird in moving_birds:
 					bird.set_selected(false)
 				selected_branch = null
 
 func get_branch_at_pos(pos: Vector2) -> Node2D:
 	for branch in branches:
-		# Adjust detection rect based on branch visual size and scaling
-		var width = 400 * branch.scale.x
-		var height = 150 * branch.scale.y
-		var rect = Rect2(branch.position.x - width/2, branch.position.y - height/2 - 20, width, height)
+		var width = 550 * branch.scale.x
+		var height = 180 * branch.scale.y
+		var rect = Rect2(branch.position.x - width/2, branch.position.y - height/2 - 60, width, height)
 		if rect.has_point(pos):
 			return branch
 	return null
 
 func check_for_matches():
-	var all_cleared = true
+	await get_tree().process_frame # Wait for bird to arrive
 
+	var matches_found = false
 	for branch in branches:
 		if branch.check_full_set():
 			branch.fly_away_all()
+			matches_found = true
 
-		# Yield slightly to allow fly away animation to start before checking if all cleared
-		# In a real game we might wait for animations to finish
+	if matches_found:
+		await get_tree().create_timer(1.0).timeout
 
-	# Wait a frame to let birds be removed from branch.birds if they flew away
-	await get_tree().process_frame
-
+	var all_cleared = true
 	for branch in branches:
 		if not branch.birds.is_empty():
 			all_cleared = false
+			break
 
 	if all_cleared:
 		win_level()

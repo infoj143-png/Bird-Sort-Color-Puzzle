@@ -4,9 +4,33 @@ const MAX_BIRDS = 4
 var birds: Array = []
 
 @onready var slots = $Slots
+@onready var sprite = $Sprite2D
 
 func _ready():
-	pass
+	update_branch_visual()
+
+func update_branch_visual():
+	if not sprite.texture: return
+
+	var img = sprite.texture.get_image()
+	if img:
+		var rect = img.get_used_rect()
+		if rect.size.x > 0 and rect.size.y > 0:
+			sprite.region_enabled = true
+			sprite.region_rect = rect
+
+			var target_width = 520.0
+			var s = target_width / rect.size.x
+			sprite.scale = Vector2(s, s)
+
+			# Optimal slot spacing for exactly 4 birds
+			var total_width = target_width * 0.85
+			var spacing = total_width / (MAX_BIRDS - 1)
+			for i in range(slots.get_child_count()):
+				var slot = slots.get_child(i)
+				var x_pos = -(total_width / 2.0) + i * spacing
+				# Sit perfectly on top of the wooden branch visual
+				slot.position = Vector2(x_pos, -5)
 
 func add_bird(bird: Node2D):
 	birds.append(bird)

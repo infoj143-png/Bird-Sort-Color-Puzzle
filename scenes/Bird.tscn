@@ -5,8 +5,11 @@
 [node name="Bird" type="Node2D"]
 script = ExtResource("1_script")
 
+[node name="Shadow" type="Polygon2D" parent="."]
+modulate = Color(0, 0, 0, 0.3)
+polygon = PackedVector2Array(-50, -5, -30, -12, 30, -12, 50, -5, 30, 2, -30, 2)
+
 [node name="Visuals" type="Node2D" parent="."]
 
 [node name="Body" type="Sprite2D" parent="Visuals"]
-scale = Vector2(0.35, 0.35)
-centered = false
+scale = Vector2(0.25, 0.25)

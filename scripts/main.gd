@@ -99,16 +99,10 @@ func handle_tap(pos: Vector2):
 
 	if selected_branch == null:
 		if not clicked_branch.birds.is_empty():
-			selected_branch = clicked_branch
-			var birds_to_select = selected_branch.get_top_birds_of_same_color()
-			for bird in birds_to_select:
-				bird.set_selected(true)
+			select_branch(clicked_branch)
 	else:
 		if selected_branch == clicked_branch:
-			var birds_to_deselect = selected_branch.get_top_birds_of_same_color()
-			for bird in birds_to_deselect:
-				bird.set_selected(false)
-			selected_branch = null
+			deselect_current_branch()
 		else:
 			var moving_birds = selected_branch.get_top_birds_of_same_color()
 			var color = moving_birds[0].color
@@ -123,15 +117,34 @@ func handle_tap(pos: Vector2):
 				selected_branch = null
 				check_for_matches()
 			else:
-				for bird in moving_birds:
-					bird.set_selected(false)
-				selected_branch = null
+				# If we can't move to this branch, but the clicked branch has birds,
+				# switch selection to the clicked branch.
+				if not clicked_branch.birds.is_empty():
+					deselect_current_branch()
+					select_branch(clicked_branch)
+				else:
+					deselect_current_branch()
+
+func select_branch(branch: Node2D):
+	selected_branch = branch
+	var birds_to_select = selected_branch.get_top_birds_of_same_color()
+	for bird in birds_to_select:
+		bird.set_selected(true)
+
+func deselect_current_branch():
+	if selected_branch:
+		var birds_to_deselect = selected_branch.get_top_birds_of_same_color()
+		for bird in birds_to_deselect:
+			bird.set_selected(false)
+		selected_branch = null
 
 func get_branch_at_pos(pos: Vector2) -> Node2D:
 	for branch in branches:
-		var width = 550 * branch.scale.x
+		# Use a narrower width to prevent overlap in two-column layouts
+		var width = 350 * branch.scale.x
 		var height = 180 * branch.scale.y
-		var rect = Rect2(branch.position.x - width/2, branch.position.y - height/2 - 60, width, height)
+		# Offset Y to better cover both the branch and the birds on it
+		var rect = Rect2(branch.position.x - width/2, branch.position.y - height/2 - 100, width, height + 100)
 		if rect.has_point(pos):
 			return branch
 	return null

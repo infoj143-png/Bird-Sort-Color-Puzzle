@@ -1,6 +1,0 @@
-<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-  <!-- Beak: Upper part (Curved) -->
-  <path d="M20,40 C50,40 70,55 70,85 L40,75 C30,70 20,60 20,40 Z" fill="#FFD700" stroke="#333" stroke-width="2"/>
-  <!-- Beak: Lower part -->
-  <path d="M22,65 C35,65 45,75 40,85 L25,80 Z" fill="#FFA500" stroke="#333" stroke-width="1"/>
-</svg>
